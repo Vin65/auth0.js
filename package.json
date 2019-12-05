@@ -1,6 +1,6 @@
 {
-  "name": "auth0-js",
-  "version": "9.11.3",
+  "name": "wdi-auth0-js",
+  "version": "1.1.0",
   "description": "Auth0 headless browser sdk",
   "author": "Auth0",
   "license": "MIT",

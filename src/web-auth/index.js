@@ -571,6 +571,69 @@ WebAuth.prototype.checkSession = function(options, cb) {
 };
 
 /**
+ * Fetches current IdToken if one exists for the current user
+ *
+ * @method checkSession
+ * @param {Object} [options]
+ * @param {String} [options.clientID] the Client ID found on your Application settings page
+ * @param {String} [options.responseType] type of the response used by OAuth 2.0 flow. It can be any space separated list of the values `code`, `token`, `id_token`. {@link https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html}
+ * @param {String} [options.state] value used to mitigate XSRF attacks. {@link https://auth0.com/docs/protocols/oauth2/oauth-state}
+ * @param {String} [options.nonce] value used to mitigate replay attacks when using Implicit Grant. {@link https://auth0.com/docs/api-auth/tutorials/nonce}
+ * @param {String} [options.scope] scopes to be requested during Auth. e.g. `openid email`
+ * @param {String} [options.audience] identifier of the resource server who will consume the access token issued after Auth
+ * @param {String} [options.timeout] value in milliseconds used to timeout when the `/authorize` call is failing as part of the silent authentication with postmessage enabled due to a configuration.
+ */
+WebAuth.prototype.fetchCurrentIdToken = function(options, cb) {
+  var params = objectHelper
+    .merge(this.baseOptions, [
+      'clientID',
+      'responseType',
+      'redirectUri',
+      'scope',
+      'audience',
+      '_csrf',
+      'state',
+      '_intstate',
+      'nonce'
+    ])
+    .with(options);
+
+  if (params.responseType === 'code') {
+    return cb({
+      error: 'error',
+      error_description: "responseType can't be `code`"
+    });
+  }
+
+  if (!options.nonce) {
+    params = this.transactionManager.process(params);
+  }
+
+  if (!params.redirectUri) {
+    return cb({
+      error: 'error',
+      error_description: "redirectUri can't be empty"
+    });
+  }
+
+  assert.check(params, {
+    type: 'object',
+    message: 'options parameter is not valid'
+  });
+  assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
+
+  params = objectHelper.blacklist(params, [
+    'usePostMessage',
+    'tenant',
+    'postMessageDataType'
+  ]);
+  this.webMessageHandler.runWithoutValidation(
+    params,
+    responseHandler(cb, { forceLegacyError: true, ignoreCasing: true })
+  );
+};
+
+/**
  * Request an email with instruction to change a user's password
  *
  * @method changePassword

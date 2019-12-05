@@ -39,10 +39,19 @@ function Authentication(auth0, options) {
   /* eslint-disable */
   assert.check(
     options,
-    { type: 'object', message: 'options parameter is not valid' },
     {
-      domain: { type: 'string', message: 'domain option is required' },
-      clientID: { type: 'string', message: 'clientID option is required' },
+      type: 'object',
+      message: 'options parameter is not valid'
+    },
+    {
+      domain: {
+        type: 'string',
+        message: 'domain option is required'
+      },
+      clientID: {
+        type: 'string',
+        message: 'clientID option is required'
+      },
       responseType: {
         optional: true,
         type: 'string',
@@ -58,7 +67,11 @@ function Authentication(auth0, options) {
         type: 'string',
         message: 'redirectUri is not valid'
       },
-      scope: { optional: true, type: 'string', message: 'scope is not valid' },
+      scope: {
+        optional: true,
+        type: 'string',
+        message: 'scope is not valid'
+      },
       audience: {
         optional: true,
         type: 'string',
@@ -144,9 +157,15 @@ Authentication.prototype.buildAuthorizeUrl = function(options) {
   /* eslint-disable */
   assert.check(
     params,
-    { type: 'object', message: 'options parameter is not valid' },
     {
-      clientID: { type: 'string', message: 'clientID option is required' },
+      type: 'object',
+      message: 'options parameter is not valid'
+    },
+    {
+      clientID: {
+        type: 'string',
+        message: 'clientID option is required'
+      },
       redirectUri: {
         optional: true,
         type: 'string',
@@ -289,10 +308,19 @@ Authentication.prototype.buildLogoutUrl = function(options) {
 Authentication.prototype.loginWithDefaultDirectory = function(options, cb) {
   assert.check(
     options,
-    { type: 'object', message: 'options parameter is not valid' },
     {
-      username: { type: 'string', message: 'username option is required' },
-      password: { type: 'string', message: 'password option is required' },
+      type: 'object',
+      message: 'options parameter is not valid'
+    },
+    {
+      username: {
+        type: 'string',
+        message: 'username option is required'
+      },
+      password: {
+        type: 'string',
+        message: 'password option is required'
+      },
       scope: {
         optional: true,
         type: 'string',
@@ -327,11 +355,23 @@ Authentication.prototype.loginWithDefaultDirectory = function(options, cb) {
 Authentication.prototype.login = function(options, cb) {
   assert.check(
     options,
-    { type: 'object', message: 'options parameter is not valid' },
     {
-      username: { type: 'string', message: 'username option is required' },
-      password: { type: 'string', message: 'password option is required' },
-      realm: { type: 'string', message: 'realm option is required' },
+      type: 'object',
+      message: 'options parameter is not valid'
+    },
+    {
+      username: {
+        type: 'string',
+        message: 'username option is required'
+      },
+      password: {
+        type: 'string',
+        message: 'password option is required'
+      },
+      realm: {
+        type: 'string',
+        message: 'realm option is required'
+      },
       scope: {
         optional: true,
         type: 'string',
@@ -364,7 +404,10 @@ Authentication.prototype.oauthToken = function(options, cb) {
     type: 'object',
     message: 'options parameter is not valid'
   });
-  assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
+  assert.check(cb, {
+    type: 'function',
+    message: 'cb parameter is not valid'
+  });
 
   url = urljoin(this.baseOptions.rootUrl, 'oauth', 'token');
 
@@ -374,10 +417,19 @@ Authentication.prototype.oauthToken = function(options, cb) {
 
   assert.check(
     body,
-    { type: 'object', message: 'options parameter is not valid' },
     {
-      clientID: { type: 'string', message: 'clientID option is required' },
-      grantType: { type: 'string', message: 'grantType option is required' },
+      type: 'object',
+      message: 'options parameter is not valid'
+    },
+    {
+      clientID: {
+        type: 'string',
+        message: 'clientID option is required'
+      },
+      grantType: {
+        type: 'string',
+        message: 'grantType option is required'
+      },
       scope: {
         optional: true,
         type: 'string',
@@ -422,11 +474,23 @@ Authentication.prototype.loginWithResourceOwner = function(options, cb) {
 
   assert.check(
     options,
-    { type: 'object', message: 'options parameter is not valid' },
     {
-      username: { type: 'string', message: 'username option is required' },
-      password: { type: 'string', message: 'password option is required' },
-      connection: { type: 'string', message: 'connection option is required' },
+      type: 'object',
+      message: 'options parameter is not valid'
+    },
+    {
+      username: {
+        type: 'string',
+        message: 'username option is required'
+      },
+      password: {
+        type: 'string',
+        message: 'password option is required'
+      },
+      connection: {
+        type: 'string',
+        message: 'connection option is required'
+      },
       scope: {
         optional: true,
         type: 'string',
@@ -434,7 +498,10 @@ Authentication.prototype.loginWithResourceOwner = function(options, cb) {
       }
     }
   );
-  assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
+  assert.check(cb, {
+    type: 'function',
+    message: 'cb parameter is not valid'
+  });
 
   url = urljoin(this.baseOptions.rootUrl, 'oauth', 'ro');
 
@@ -472,7 +539,10 @@ Authentication.prototype.getSSOData = function(withActiveDirectories, cb) {
   if (typeof withActiveDirectories === 'function') {
     cb = withActiveDirectories;
   }
-  assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
+  assert.check(cb, {
+    type: 'function',
+    message: 'cb parameter is not valid'
+  });
   var clientId = this.baseOptions.clientID;
   var ssodataInformation = this.ssodataStorage.get() || {};
 
@@ -486,19 +556,25 @@ Authentication.prototype.getSSOData = function(withActiveDirectories, cb) {
     function(err, result) {
       if (err) {
         if (err.error === 'login_required') {
-          return cb(null, { sso: false });
+          return cb(null, {
+            sso: false
+          });
         }
         if (err.error === 'consent_required') {
           err.error_description =
             'Consent required. When using `getSSOData`, the user has to be authenticated with the following scope: `openid profile email`.';
         }
-        return cb(err, { sso: false });
+        return cb(err, {
+          sso: false
+        });
       }
       if (
         ssodataInformation.lastUsedSub &&
         ssodataInformation.lastUsedSub !== result.idTokenPayload.sub
       ) {
-        return cb(err, { sso: false });
+        return cb(err, {
+          sso: false
+        });
       }
       return cb(null, {
         lastUsedConnection: {
@@ -536,14 +612,21 @@ Authentication.prototype.userInfo = function(accessToken, cb) {
     type: 'string',
     message: 'accessToken parameter is not valid'
   });
-  assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
+  assert.check(cb, {
+    type: 'function',
+    message: 'cb parameter is not valid'
+  });
 
   url = urljoin(this.baseOptions.rootUrl, 'userinfo');
 
   return this.request
     .get(url)
     .set('Authorization', 'Bearer ' + accessToken)
-    .end(responseHandler(cb, { ignoreCasing: true }));
+    .end(
+      responseHandler(cb, {
+        ignoreCasing: true
+      })
+    );
 };
 
 /**
@@ -554,7 +637,10 @@ Authentication.prototype.userInfo = function(accessToken, cb) {
  * @param {callback} cb
  */
 Authentication.prototype.getChallenge = function(cb) {
-  assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
+  assert.check(cb, {
+    type: 'function',
+    message: 'cb parameter is not valid'
+  });
 
   if (!this.baseOptions.state) {
     return cb();
@@ -564,8 +650,14 @@ Authentication.prototype.getChallenge = function(cb) {
 
   return this.request
     .post(url)
-    .send({ state: this.baseOptions.state })
-    .end(responseHandler(cb, { ignoreCasing: true }));
+    .send({
+      state: this.baseOptions.state
+    })
+    .end(
+      responseHandler(cb, {
+        ignoreCasing: true
+      })
+    );
 };
 
 /**
@@ -596,12 +688,21 @@ Authentication.prototype.delegation = function(options, cb) {
 
   assert.check(
     options,
-    { type: 'object', message: 'options parameter is not valid' },
     {
-      grant_type: { type: 'string', message: 'grant_type option is required' }
+      type: 'object',
+      message: 'options parameter is not valid'
+    },
+    {
+      grant_type: {
+        type: 'string',
+        message: 'grant_type option is required'
+      }
     }
   );
-  assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
+  assert.check(cb, {
+    type: 'function',
+    message: 'cb parameter is not valid'
+  });
 
   url = urljoin(this.baseOptions.rootUrl, 'delegation');
 
@@ -625,7 +726,10 @@ Authentication.prototype.delegation = function(options, cb) {
 Authentication.prototype.getUserCountry = function(cb) {
   var url;
 
-  assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
+  assert.check(cb, {
+    type: 'function',
+    message: 'cb parameter is not valid'
+  });
 
   url = urljoin(this.baseOptions.rootUrl, 'user', 'geoloc', 'country');
 
